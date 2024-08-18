@@ -34,12 +34,44 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 
     public async Task CallElevator(int floorNumber)
     {
-        //TODO: Call elevator to floornumber
+        var availableElevator = await GetAvailableElevator(floorNumber);
+
+        if (availableElevator is not null)
+        {
+            await MoveElevatorToFloor(availableElevator, floorNumber);
+        }
+        else
+        {
+            Console.WriteLine("Please wait for an available elevator.");
+        }
     }
 
     public async Task MoveElevatorToFloor(Elevator elevator, int destinationFloor)
     {
-        //TODO: Move elevator to destination floor
+        elevator.State = elevator.CurrentFloor < destinationFloor ? ElevatorState.MovingUp : ElevatorState.MovingDown;
+
+        while (elevator.CurrentFloor != destinationFloor)
+        {
+            if (elevator.State == ElevatorState.MovingUp)
+            {
+                elevator.CurrentFloor++;
+
+                Console.Clear();
+                await DisplayElevatorStatus();
+            }
+            else if (elevator.State == ElevatorState.MovingDown)
+            {
+                elevator.CurrentFloor--;
+
+                Console.Clear();
+                await DisplayElevatorStatus();
+            }
+
+            ElevatorSpeed(elevator.ElevatorType);
+        }
+
+        elevator.State = ElevatorState.Idle;
+        await _elevatorRepository.Update(elevator);
     }
 
     private void ElevatorSpeed(ElevatorType elevatorType)
