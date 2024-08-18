@@ -20,7 +20,13 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 
     public async Task AddElevators()
     {
-        //TODO: Add elevators to inmemory DB
+        List<Elevator> elevators =
+        [
+            new Elevator { Id = 1, CurrentFloor = 0, State = ElevatorState.Idle, ElevatorType = ElevatorType.Standard, MaxPassengers = 10, MaxWeight = 1000 },
+            new Elevator { Id = 2, CurrentFloor = 5, State = ElevatorState.Idle, ElevatorType = ElevatorType.HighSpeed, MaxPassengers = 10, MaxWeight = 1000 }
+        ];
+
+        await _elevatorRepository.AddMultiple(elevators);
     }
 
     public async Task<Elevator> GetElevator(int id) =>
@@ -38,7 +44,18 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 
     private void ElevatorSpeed(ElevatorType elevatorType)
     {
-        //TODO: Set up speed per elevator
+        switch (elevatorType)
+        {
+            case ElevatorType.Standard:
+                Thread.Sleep(700);
+                break;
+            case ElevatorType.Freight:
+                Thread.Sleep(600);
+                break;
+            case ElevatorType.HighSpeed:
+                Thread.Sleep(500);
+                break;
+        }
     }
 
     public async Task<IEnumerable<Elevator>> GetElevators() =>
