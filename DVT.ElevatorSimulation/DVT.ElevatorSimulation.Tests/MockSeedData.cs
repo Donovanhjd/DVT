@@ -6,6 +6,10 @@ namespace DVT.ElevatorSimulation.Tests;
 
 public static class MockDataSeeder
 {
+    /// <summary>
+    /// Seeds the in-memory database with initial elevator data.
+    /// </summary>
+    /// <param name="context">The in-memory database context to seed.</param>
     public static async Task SeedAsync(InMemoryDatabase context)
     {
         await context.Database.EnsureCreatedAsync();

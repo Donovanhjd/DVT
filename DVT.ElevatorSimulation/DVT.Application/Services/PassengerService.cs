@@ -8,6 +8,13 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
 {
     private readonly IRepository<Elevator> _elevatorRepo = elevatorRepository;
 
+    /// <summary>
+    /// Adds passengers to the specified elevator and updates its state in the repository.
+    /// </summary>
+    /// <param name="elevatorId">The ID of the elevator.</param>
+    /// <param name="numberOfPassengers">The number of passengers to add.</param>
+    /// <param name="weightPerPassenger">The weight of each passenger.</param>
+    /// <param name="requestedFloor">The floor number to which the passengers are requesting.</param>
     public async Task AddPassengers(int elevatorId, int numberOfPassengers, int weightPerPassenger, int requestedFloor)
     {
         var elevator = await _elevatorRepo.GetById(elevatorId);
@@ -25,6 +32,12 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
         Console.WriteLine($"Total weight: {totalPassengerWeight} kg");
     }
 
+    /// <summary>
+    /// Adds a specified number of passengers with a given weight to an elevator.
+    /// </summary>
+    /// <param name="elevator">The elevator to which passengers are added.</param>
+    /// <param name="numberOfPassengers">The number of passengers to add.</param>
+    /// <param name="weightPerPassenger">The weight of each passenger.</param>
     private void AddPassengersToElevator(Elevator elevator, int numberOfPassengers, int weightPerPassenger)
     {
         for (int passenger = 1; passenger < numberOfPassengers + 1; passenger++)
@@ -33,6 +46,11 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
         }
     }
 
+    /// <summary>
+    /// Removes passengers from the specified elevator.
+    /// </summary>
+    /// <param name="elevatorId">The ID of the elevator.</param>
+    /// <param name="numberOfPassengers">The number of passengers to remove.</param>
     public async Task RemovePassengers(int elevatorId, int numberOfPassengers)
     {
         var elevator = await _elevatorRepo.GetById(elevatorId);
@@ -49,6 +67,12 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
         Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
     }
 
+    /// <summary>
+    /// Validates input and returns a boolean value indicating if the condition was met.
+    /// </summary>
+    /// <param name="prompt">The prompt message to display.</param>
+    /// <param name="condition">The condition to validate.</param>
+    /// <returns>A boolean value indicating if the condition was met.</returns>
     private bool GetValidatedIntInput(string prompt, bool condition = false)
     {
         if (condition)

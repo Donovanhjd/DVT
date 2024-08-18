@@ -9,6 +9,11 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 {
     private readonly IRepository<Elevator> _elevatorRepository = elevatorRepository;
 
+    /// <summary>
+    /// Retrieves an available elevator closest to the specified floor.
+    /// </summary>
+    /// <param name="floorNumber">The floor number to check for availability.</param>
+    /// <returns>An available elevator closest to the specified floor.</returns>
     private async Task<Elevator> GetAvailableElevator(int floorNumber)
     {
         var elevators = await GetElevators();
@@ -18,6 +23,9 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
             .FirstOrDefault()!;
     }
 
+    /// <summary>
+    /// Adds a predefined set of elevators to the repository.
+    /// </summary>
     public async Task AddElevators()
     {
         List<Elevator> elevators =
@@ -29,9 +37,18 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
         await _elevatorRepository.AddMultiple(elevators);
     }
 
+    /// <summary>
+    /// Retrieves an elevator by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the elevator to retrieve.</param>
+    /// <returns>The elevator with the specified ID.</returns>
     public async Task<Elevator> GetElevator(int id) =>
         await _elevatorRepository.GetById(id);
 
+    /// <summary>
+    /// Calls an elevator to the specified floor.
+    /// </summary>
+    /// <param name="floorNumber">The floor number to which the elevator is called.</param>
     public async Task CallElevator(int floorNumber)
     {
         var availableElevator = await GetAvailableElevator(floorNumber);
@@ -46,6 +63,11 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
         }
     }
 
+    /// <summary>
+    /// Moves the specified elevator to the destination floor.
+    /// </summary>
+    /// <param name="elevator">The elevator to move.</param>
+    /// <param name="destinationFloor">The destination floor number.</param>
     public async Task MoveElevatorToFloor(Elevator elevator, int destinationFloor)
     {
         elevator.State = elevator.CurrentFloor < destinationFloor ? ElevatorState.MovingUp : ElevatorState.MovingDown;
@@ -77,6 +99,10 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
         await DisplayElevatorStatus();
     }
 
+    /// <summary>
+    /// Determines the speed of the elevator based on its type.
+    /// </summary>
+    /// <param name="elevatorType">The type of the elevator.</param>
     private void ElevatorSpeed(ElevatorType elevatorType)
     {
         switch (elevatorType)
@@ -93,9 +119,16 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
         }
     }
 
+    /// <summary>
+    /// Retrieves all elevators from the repository.
+    /// </summary>
+    /// <returns>An enumerable of all elevators.</returns>
     public async Task<IEnumerable<Elevator>> GetElevators() =>
         await _elevatorRepository.GetAll();
 
+    /// <summary>
+    /// Displays the status of all elevators to the console.
+    /// </summary>
     public async Task DisplayElevatorStatus()
     {
         var elevators = await GetElevators();
