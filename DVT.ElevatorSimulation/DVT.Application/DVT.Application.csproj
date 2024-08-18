@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\DVT.Domain\DVT.Domain.csproj" />
+    <ProjectReference Include="..\DVT.Infrastructure\DVT.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
