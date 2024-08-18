@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVT.Infrastructure", "DVT.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10D79920-DB48-4C51-B1D5-AAB25704FF45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVT.ConsoleApp", "DVT.ConsoleApp\DVT.ConsoleApp.csproj", "{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVT.ConsoleApp", "DVT.ConsoleApp\DVT.ConsoleApp.csproj", "{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
