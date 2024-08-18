@@ -30,7 +30,9 @@ This console application simulates the operation of elevators in a building. It 
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/your-username/elevator-simulation.git
-   cd elevator-simulation
+   cd DVT.ElevatorSimulation\DVT.ConsoleApp
+   or
+   Set DVT.ConsoleApp as startup project
    ```
 
 2. **Restore the dependencies**:
@@ -43,12 +45,7 @@ This console application simulates the operation of elevators in a building. It 
    dotnet build
    ```
 
-4. **Set DVT.ConsoleApp as startup project**:
-   ```bash
-   dotnet restore
-   ```
-
-5. **Run the application**:
+4. **Run the application**:
    ```bash
    dotnet run
    ```
