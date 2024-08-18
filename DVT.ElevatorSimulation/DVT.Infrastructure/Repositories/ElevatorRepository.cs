@@ -9,6 +9,10 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
 {
     private readonly InMemoryDatabase _database = database;
 
+    /// <summary>
+    /// Retrieves all elevators from the in-memory database.
+    /// </summary>
+    /// <returns>An enumerable of all elevators.</returns>
     public async Task<IEnumerable<Elevator>> GetAll()
     {
         try
@@ -27,6 +31,11 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
         }
     }
 
+    /// <summary>
+    /// Retrieves an elevator by its ID from the in-memory database.
+    /// </summary>
+    /// <param name="id">The ID of the elevator to retrieve.</param>
+    /// <returns>The elevator with the specified ID.</returns>
     public async Task<Elevator> GetById(int id)
     {
         try
@@ -56,6 +65,10 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
         }
     }
 
+    /// <summary>
+    /// Adds a new elevator to the in-memory database.
+    /// </summary>
+    /// <param name="entity">The elevator to add.</param>
     public async Task Add(Elevator entity)
     {
         try
@@ -73,6 +86,10 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
         }
     }
 
+    /// <summary>
+    /// Adds multiple elevators to the in-memory database.
+    /// </summary>
+    /// <param name="entities">The elevators to add.</param>
     public async Task AddMultiple(IEnumerable<Elevator> entities)
     {
         try
@@ -90,6 +107,10 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
         }
     }
 
+    /// <summary>
+    /// Updates an existing elevator in the in-memory database.
+    /// </summary>
+    /// <param name="entity">The elevator to update.</param>
     public async Task Update(Elevator entity)
     {
         try
@@ -115,6 +136,10 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
         }
     }
 
+    /// <summary>
+    /// Deletes an elevator by its ID from the in-memory database.
+    /// </summary>
+    /// <param name="id">The ID of the elevator to delete.</param>
     public async Task Delete(int id)
     {
         try

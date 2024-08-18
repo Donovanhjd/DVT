@@ -7,12 +7,18 @@ public class ControlService(IPassengerService passengerService, IElevatorService
     private readonly IPassengerService _passengerService = passengerService;
     private readonly IElevatorService _elevatorService = elevatorService;
 
+    /// <summary>
+    /// Handles the logic for calling an elevator.
+    /// </summary>
     public async Task CallElevator()
     {
         var floorNumber = GetValidatedIntInput("Enter floor number to call elevator:", 1, 10);
         await _elevatorService.CallElevator(floorNumber)!;
     }
 
+    /// <summary>
+    /// Handles the logic for adding passengers to an elevator.
+    /// </summary>
     public async Task AddPassengers()
     {
         var elevators = await _elevatorService?.GetElevators()!;
@@ -38,6 +44,9 @@ public class ControlService(IPassengerService passengerService, IElevatorService
         Console.WriteLine($"Elevator number: {elevator!.Id} has reached floor {destinationFloor}");
     }
 
+    /// <summary>
+    /// Handles the logic for removing passengers from an elevator.
+    /// </summary>
     public async Task RemovePassengers()
     {
         var elevators = await _elevatorService?.GetElevators()!;
@@ -56,6 +65,13 @@ public class ControlService(IPassengerService passengerService, IElevatorService
         await _passengerService?.RemovePassengers(elevatorId, numberOfPassengers)!;
     }
 
+    /// <summary>
+    /// Validates integer input within a specified range.
+    /// </summary>
+    /// <param name="prompt">The prompt message to display.</param>
+    /// <param name="minValue">The minimum valid value.</param>
+    /// <param name="maxValue">The maximum valid value.</param>
+    /// <returns>The validated integer input.</returns>
     private int GetValidatedIntInput(string prompt, int? minValue, int? maxValue)
     {
         int value;
@@ -82,6 +98,9 @@ public class ControlService(IPassengerService passengerService, IElevatorService
         return value;
     }
 
+    /// <summary>
+    /// Starts the elevator simulation and handles user interaction.
+    /// </summary>
     public async Task StartSimulation()
     {
         await _elevatorService.AddElevators();
