@@ -15,7 +15,27 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
     public async Task AddPassengers()
     {
-        //TODO: Call add passenger service
+        var elevators = await _elevatorService?.GetElevators()!;
+
+        var elevatorId = GetValidatedIntInput("Enter elevator number:", 1, elevators.Count());
+
+        var elevator = await _elevatorService?.GetElevator(elevatorId)!;
+
+        if (elevator is null)
+        {
+            Console.WriteLine("No elevators available.");
+            return;
+        }
+
+        var numberOfPassengers = GetValidatedIntInput("Enter number of passengers:", 1, elevator?.MaxPassengers);
+        var weightPerPassenger = GetValidatedIntInput("Enter weight per passenger (kg):", 1, elevator?.MaxWeight / elevator?.MaxPassengers);
+
+        _passengerService?.AddPassengers(elevatorId, numberOfPassengers, weightPerPassenger, elevator!.CurrentFloor);
+
+        var destinationFloor = GetValidatedIntInput("Which floor are you moving to", 1, 10);
+        _elevatorService?.MoveElevatorToFloor(elevator!, destinationFloor);
+
+        Console.WriteLine($"Elevator number: {elevator!.Id} has reached floor {destinationFloor}");
     }
 
     public async Task RemovePassengers()
