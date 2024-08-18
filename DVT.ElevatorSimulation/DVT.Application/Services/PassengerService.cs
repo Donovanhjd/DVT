@@ -15,6 +15,28 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
 
     public async Task RemovePassengers(int elevatorId, int numberOfPassengers)
     {
-        //TODO: Remove passengers Logic
+        var elevator = await _elevatorRepo.GetById(elevatorId);
+
+        if (GetValidatedIntInput("Elevator not found.", elevator == null)) return;
+        if (GetValidatedIntInput("Not enough passengers to remove.", elevator?.Passengers?.Count <= numberOfPassengers)) return;
+
+        elevator!.Passengers = elevator.Passengers?
+            .Take(elevator.Passengers.Count - numberOfPassengers)
+            .ToList();
+
+        await _elevatorRepo.Update(elevator);
+
+        Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
+    }
+
+    private bool GetValidatedIntInput(string prompt, bool condition = false)
+    {
+        if (condition)
+        {
+            Console.WriteLine(prompt);
+            return true;
+        }
+
+        return condition;
     }
 }
