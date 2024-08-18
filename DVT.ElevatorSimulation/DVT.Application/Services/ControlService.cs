@@ -1,4 +1,5 @@
 ﻿using DVT.Application.Interfaces;
+using DVT.Domain.Entities;
 
 namespace DVT.Application.Services;
 
@@ -36,10 +37,19 @@ public class ControlService(IPassengerService passengerService, IElevatorService
         var numberOfPassengers = GetValidatedIntInput("Enter number of passengers:", 1, elevator?.MaxPassengers);
         var weightPerPassenger = GetValidatedIntInput("Enter weight per passenger (kg):", 1, elevator?.MaxWeight / elevator?.MaxPassengers);
 
-        _passengerService?.AddPassengers(elevatorId, numberOfPassengers, weightPerPassenger, elevator!.CurrentFloor);
+        await _passengerService?.AddPassengers(elevatorId, numberOfPassengers, weightPerPassenger, elevator!.CurrentFloor)!;
 
+        Console.WriteLine($"{numberOfPassengers} passengers added to elevator {elevatorId}.");
+        var totalPassengerWeight = elevator?.Passengers?.Sum(rec => rec.Weight);
+        Console.WriteLine($"Total weight: {totalPassengerWeight} kg");
+
+        await MoveToDestinationFloor(elevator!);
+    }
+
+    private async Task MoveToDestinationFloor(Elevator elevator)
+    {
         var destinationFloor = GetValidatedIntInput("Which floor are you moving to", 1, 10);
-        _elevatorService?.MoveElevatorToFloor(elevator!, destinationFloor);
+        await _elevatorService?.MoveElevatorToFloor(elevator!, destinationFloor)!;
 
         Console.WriteLine($"Elevator number: {elevator!.Id} has reached floor {destinationFloor}");
     }
@@ -63,6 +73,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
         var numberOfPassengers = GetValidatedIntInput("Enter number of passengers to remove:", 1, elevator?.Passengers?.Count);
         await _passengerService?.RemovePassengers(elevatorId, numberOfPassengers)!;
+        Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
     }
 
     /// <summary>
