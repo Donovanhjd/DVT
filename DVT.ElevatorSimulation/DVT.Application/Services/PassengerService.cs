@@ -27,9 +27,6 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
         if (GetValidatedIntInput("Elevator is at full capacity.", (elevator?.Passengers?.Count ?? 0 + numberOfPassengers) > elevator!.MaxPassengers)) return;
 
         await _elevatorRepo.Update(elevator);
-
-        Console.WriteLine($"{numberOfPassengers} passengers added to elevator {elevatorId}.");
-        Console.WriteLine($"Total weight: {totalPassengerWeight} kg");
     }
 
     /// <summary>
@@ -63,8 +60,6 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
             .ToList();
 
         await _elevatorRepo.Update(elevator);
-
-        Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
     }
 
     /// <summary>

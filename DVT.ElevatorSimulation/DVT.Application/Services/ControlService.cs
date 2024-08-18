@@ -39,6 +39,10 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
         await _passengerService?.AddPassengers(elevatorId, numberOfPassengers, weightPerPassenger, elevator!.CurrentFloor)!;
 
+        Console.WriteLine($"{numberOfPassengers} passengers added to elevator {elevatorId}.");
+        var totalPassengerWeight = elevator?.Passengers?.Sum(rec => rec.Weight);
+        Console.WriteLine($"Total weight: {totalPassengerWeight} kg");
+
         await MoveToDestinationFloor(elevator!);
     }
 
@@ -69,6 +73,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
         var numberOfPassengers = GetValidatedIntInput("Enter number of passengers to remove:", 1, elevator?.Passengers?.Count);
         await _passengerService?.RemovePassengers(elevatorId, numberOfPassengers)!;
+        Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
     }
 
     /// <summary>
