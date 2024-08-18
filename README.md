@@ -61,6 +61,8 @@ When you run the application, you will be presented with a menu to interact with
 2. **Add Passengers**: Add passengers to a selected elevator and move it to a destination floor.
 3. **Remove Passengers**: Remove a specified number of passengers from an elevator.
 4. **Exit**: Exit the simulation.
+   
+***Please note, you can add passengers at anytime as we are assuming they are already on the floor***
 
 Follow the prompts to enter the necessary details such as floor numbers, elevator IDs, and passenger information.
 
