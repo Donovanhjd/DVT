@@ -74,9 +74,6 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
             {
                 _database.Entry(existingElevator).CurrentValues.SetValues(entity);
 
-                existingElevator.Passengers?.Clear();
-                existingElevator.Passengers?.AddRange(entity.Passengers!);
-
                 await _database.SaveChangesAsync();
             }
         }
