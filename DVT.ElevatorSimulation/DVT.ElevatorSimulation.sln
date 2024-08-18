@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10D79920-DB4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DVT.ConsoleApp", "DVT.ConsoleApp\DVT.ConsoleApp.csproj", "{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{04E68482-A5B5-45D1-85A3-5488EB0FF5BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DVT.ElevatorSimulation.Tests", "DVT.ElevatorSimulation.Tests\DVT.ElevatorSimulation.Tests.csproj", "{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,10 @@ Global
 		{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E32D32C-47EB-44A2-89BC-F2DAD16224DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{3526B3D2-CAEC-421A-862F-EC2DE0CF0266} = {10D79920-DB48-4C51-B1D5-AAB25704FF45}
 		{FA6A483D-B48B-47FE-9C80-BA24EEA4D10B} = {10D79920-DB48-4C51-B1D5-AAB25704FF45}
 		{1E32D32C-47EB-44A2-89BC-F2DAD16224DF} = {10D79920-DB48-4C51-B1D5-AAB25704FF45}
+		{30BF6AE4-20CF-4BA1-B4CB-29B6FF142093} = {04E68482-A5B5-45D1-85A3-5488EB0FF5BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB5A4A5F-397A-47A5-B6FD-A22698DC36E1}

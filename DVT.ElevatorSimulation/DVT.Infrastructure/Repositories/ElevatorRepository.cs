@@ -27,11 +27,9 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
     {
         try
         {
-            var elevator = await _database.Elevators
+            return await _database.Elevators
                 .Include(e => e.Passengers)
                 .FirstOrDefaultAsync(e => e.Id == id);
-
-            return elevator ?? throw new Exception($"Elevator with id {id} was not found.");
         }
         catch (Exception ex)
         {
