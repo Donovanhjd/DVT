@@ -20,7 +20,20 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
     public async Task RemovePassengers()
     {
-        //TODO: call remove passenger from service
+        var elevators = await _elevatorService?.GetElevators()!;
+
+        var elevatorId = GetValidatedIntInput("Enter elevator ID:", 1, elevators.Count());
+
+        var elevator = await _elevatorService?.GetElevator(elevatorId)!;
+
+        if (elevator is null)
+        {
+            Console.WriteLine("No elevators available.");
+            return;
+        }
+
+        var numberOfPassengers = GetValidatedIntInput("Enter number of passengers to remove:", 1, elevator?.Passengers?.Count);
+        await _passengerService?.RemovePassengers(elevatorId, numberOfPassengers)!;
     }
 
     private int GetValidatedIntInput(string prompt, int? minValue, int? maxValue)
