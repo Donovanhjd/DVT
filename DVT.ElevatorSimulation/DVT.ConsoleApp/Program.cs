@@ -17,9 +17,9 @@ class Program
             var controlService = serviceProvider.GetService<IControlService>();
             await controlService?.StartSimulation()!;
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            throw;
+            Console.WriteLine($"Something went wrong error: {e.Message}");
         }
     }
 }
