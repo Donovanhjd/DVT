@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DVT.Application\DVT.Application.csproj" />
     <ProjectReference Include="..\DVT.Infrastructure\DVT.Infrastructure.csproj" />
   </ItemGroup>
 
