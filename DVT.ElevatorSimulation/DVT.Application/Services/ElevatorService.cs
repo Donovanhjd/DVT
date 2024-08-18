@@ -63,6 +63,24 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 
     public async Task DisplayElevatorStatus()
     {
-        //TODO: Display Elevator status with consoleapp
+        var elevators = await GetElevators();
+        elevators.OrderBy(e => e.Id);
+
+        if (elevators is null)
+        {
+            Console.WriteLine("No elevators available.");
+            return;
+        }
+
+        foreach (var elevator in elevators!)
+        {
+            Console.WriteLine($"Elevator Number: {elevator.Id}");
+            Console.WriteLine($"Current Floor: {elevator.CurrentFloor}");
+            Console.WriteLine($"People: {elevator?.Passengers?.Count ?? 0}/{elevator!.MaxPassengers}");
+            Console.WriteLine($"Weight: {elevator?.Passengers?.Sum(rec => rec.Weight) ?? 0} kg/{elevator!.MaxWeight} kg");
+            Console.WriteLine($"Type: {elevator.ElevatorType}");
+            Console.WriteLine($"State: {elevator.State}");
+            Console.WriteLine();
+        }
     }
 }
