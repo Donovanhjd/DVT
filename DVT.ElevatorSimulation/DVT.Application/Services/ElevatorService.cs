@@ -72,6 +72,9 @@ public class ElevatorService(IRepository<Elevator> elevatorRepository) : IElevat
 
         elevator.State = ElevatorState.Idle;
         await _elevatorRepository.Update(elevator);
+
+        Console.Clear();
+        await DisplayElevatorStatus();
     }
 
     private void ElevatorSpeed(ElevatorType elevatorType)
