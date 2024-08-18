@@ -17,9 +17,13 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
                 .Include(e => e.Passengers)
                 .ToListAsync();
         }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when retrieving Elevators.", dbEx);
+        }
         catch (Exception ex)
         {
-            throw new Exception("Not able to find Elevators", ex);
+            throw new Exception("An unexpected error occurred when retrieving Elevators.", ex);
         }
     }
 
@@ -27,13 +31,28 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
     {
         try
         {
-            return await _database.Elevators
+            var elevator = await _database.Elevators
                 .Include(e => e.Passengers)
                 .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (elevator == null)
+            {
+                throw new InvalidOperationException($"Elevator with id {id} not found.");
+            }
+
+            return elevator;
+        }
+        catch (InvalidOperationException invOpEx)
+        {
+            throw new Exception(invOpEx.Message, invOpEx);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when retrieving Elevator by ID.", dbEx);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Not able to find Elevator with id {id}.", ex);
+            throw new Exception("An unexpected error occurred when retrieving Elevator by ID.", ex);
         }
     }
 
@@ -44,9 +63,13 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
             await _database.Elevators.AddAsync(entity);
             await _database.SaveChangesAsync();
         }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when adding an Elevator.", dbEx);
+        }
         catch (Exception ex)
         {
-            throw new Exception("Not able to add Elevator.", ex);
+            throw new Exception("An unexpected error occurred when adding an Elevator.", ex);
         }
     }
 
@@ -57,9 +80,13 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
             await _database.Elevators.AddRangeAsync(entities);
             await _database.SaveChangesAsync();
         }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when adding multiple Elevators.", dbEx);
+        }
         catch (Exception ex)
         {
-            throw new Exception("Not able to add Elevators.", ex);
+            throw new Exception("An unexpected error occurred when adding multiple Elevators.", ex);
         }
     }
 
@@ -71,13 +98,20 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
             if (existingElevator is not null)
             {
                 _database.Entry(existingElevator).CurrentValues.SetValues(entity);
-
                 await _database.SaveChangesAsync();
             }
         }
+        catch (InvalidOperationException invOpEx)
+        {
+            throw new Exception("Cannot update the Elevator because it was not found.", invOpEx);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when updating the Elevator.", dbEx);
+        }
         catch (Exception ex)
         {
-            throw new Exception("Not able to update Elevator", ex);
+            throw new Exception("An unexpected error occurred when updating the Elevator.", ex);
         }
     }
 
@@ -92,9 +126,17 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
                 await _database.SaveChangesAsync();
             }
         }
+        catch (InvalidOperationException invOpEx)
+        {
+            throw new Exception("Cannot delete the Elevator because it was not found.", invOpEx);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new Exception("Database update failed when deleting the Elevator.", dbEx);
+        }
         catch (Exception ex)
         {
-            throw new Exception("Not able to delete Elevator", ex);
+            throw new Exception("An unexpected error occurred when deleting the Elevator.", ex);
         }
     }
 }
