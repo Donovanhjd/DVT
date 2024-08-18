@@ -10,7 +10,27 @@ public class PassengerService(IRepository<Elevator> elevatorRepository) : IPasse
 
     public async Task AddPassengers(int elevatorId, int numberOfPassengers, int weightPerPassenger, int requestedFloor)
     {
-        //TODO: Addpassengers logic
+        var elevator = await _elevatorRepo.GetById(elevatorId);
+        if (GetValidatedIntInput("Elevator not found.", elevator == null)) return;
+
+        AddPassengersToElevator(elevator!, numberOfPassengers, weightPerPassenger);
+        var totalPassengerWeight = elevator?.Passengers?.Sum(rec => rec.Weight);
+
+        if (GetValidatedIntInput("Adding these passengers would exceed the weight limit.", totalPassengerWeight > elevator!.MaxWeight)) return;
+        if (GetValidatedIntInput("Elevator is at full capacity.", (elevator?.Passengers?.Count ?? 0 + numberOfPassengers) > elevator!.MaxPassengers)) return;
+
+        await _elevatorRepo.Update(elevator);
+
+        Console.WriteLine($"{numberOfPassengers} passengers added to elevator {elevatorId}.");
+        Console.WriteLine($"Total weight: {totalPassengerWeight} kg");
+    }
+
+    private void AddPassengersToElevator(Elevator elevator, int numberOfPassengers, int weightPerPassenger)
+    {
+        for (int passenger = 1; passenger < numberOfPassengers + 1; passenger++)
+        {
+            elevator.Passengers?.Add(new(weightPerPassenger));
+        }
     }
 
     public async Task RemovePassengers(int elevatorId, int numberOfPassengers)
