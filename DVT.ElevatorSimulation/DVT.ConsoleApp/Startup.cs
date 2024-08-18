@@ -1,4 +1,6 @@
-﻿using DVT.Domain.Entities;
+﻿using DVT.Application.Interfaces;
+using DVT.Application.Services;
+using DVT.Domain.Entities;
 using DVT.Infrastructure.Data;
 using DVT.Infrastructure.Interfaces;
 using DVT.Infrastructure.Repositories;
@@ -15,6 +17,9 @@ namespace DVT.ConsoleApp
                 options.UseInMemoryDatabase("InMemoryDb"));
 
             services.AddScoped<IRepository<Elevator>, ElevatorRepository>();
+            services.AddScoped<IElevatorService, ElevatorService>();
+            services.AddScoped<IPassengerService, PassengerService>();
+            services.AddScoped<IControlService, ControlService>();
         }
     }
 }
