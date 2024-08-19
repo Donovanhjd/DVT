@@ -25,7 +25,7 @@ public class PassengerService(IRepository<Elevator> elevatorRepository, IInputSe
         var totalPassengerWeight = elevator?.Passengers?.Sum(rec => rec.Weight);
 
         if (_inputService.GetValidatedIntInput("Adding these passengers would exceed the weight limit.", totalPassengerWeight > elevator!.MaxWeight)) return;
-        if (_inputService.GetValidatedIntInput("Elevator is at full capacity.", (elevator?.Passengers?.Count ?? 0 + numberOfPassengers) > elevator!.MaxPassengers)) return;
+        if (_inputService.GetValidatedIntInput("Elevator is at full capacity.", elevator?.Passengers?.Count > elevator!.MaxPassengers)) return;
 
         await _elevatorRepo.Update(elevator);
     }
