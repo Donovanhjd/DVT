@@ -36,4 +36,21 @@ public class InputService : IInputService
 
         return value;
     }
+
+    /// <summary>
+    /// Validates input and returns a boolean value indicating if the condition was met.
+    /// </summary>
+    /// <param name="prompt">The prompt message to display.</param>
+    /// <param name="condition">The condition to validate.</param>
+    /// <returns>A boolean value indicating if the condition was met.</returns>
+    public bool GetValidatedIntInput(string prompt, bool condition = false)
+    {
+        if (condition)
+        {
+            Console.WriteLine(prompt);
+            return true;
+        }
+
+        return condition;
+    }
 }
