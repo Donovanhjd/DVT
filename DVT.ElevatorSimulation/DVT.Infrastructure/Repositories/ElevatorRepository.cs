@@ -44,11 +44,6 @@ public class ElevatorRepository(InMemoryDatabase database) : IRepository<Elevato
                 .Include(e => e.Passengers)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
-            if (elevator == null)
-            {
-                throw new InvalidOperationException($"Elevator with id {id} not found.");
-            }
-
             return elevator;
         }
         catch (InvalidOperationException invOpEx)
