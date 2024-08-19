@@ -3,17 +3,18 @@ using DVT.Domain.Entities;
 
 namespace DVT.Application.Services;
 
-public class ControlService(IPassengerService passengerService, IElevatorService elevatorService) : IControlService
+public class ControlService(IPassengerService passengerService, IElevatorService elevatorService, IInputService inputService) : IControlService
 {
     private readonly IPassengerService _passengerService = passengerService;
     private readonly IElevatorService _elevatorService = elevatorService;
+    private readonly IInputService _inputService = inputService;
 
     /// <summary>
     /// Handles the logic for calling an elevator.
     /// </summary>
     public async Task CallElevator()
     {
-        var floorNumber = GetValidatedIntInput("Enter floor number to call elevator:", 1, 10);
+        var floorNumber = _inputService.GetValidatedIntInput("Enter floor number to call elevator:", 1, 10);
         await _elevatorService.CallElevator(floorNumber)!;
     }
 
@@ -24,7 +25,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
     {
         var elevators = await _elevatorService?.GetElevators()!;
 
-        var elevatorId = GetValidatedIntInput("Enter elevator number:", 1, elevators.Count());
+        var elevatorId = _inputService.GetValidatedIntInput("Enter elevator number:", 1, elevators.Count());
 
         var elevator = await _elevatorService?.GetElevator(elevatorId)!;
 
@@ -34,8 +35,8 @@ public class ControlService(IPassengerService passengerService, IElevatorService
             return;
         }
 
-        var numberOfPassengers = GetValidatedIntInput("Enter number of passengers:", 1, elevator?.MaxPassengers);
-        var weightPerPassenger = GetValidatedIntInput("Enter weight per passenger (kg):", 1, elevator?.MaxWeight / elevator?.MaxPassengers);
+        var numberOfPassengers = _inputService.GetValidatedIntInput("Enter number of passengers:", 1, elevator?.MaxPassengers);
+        var weightPerPassenger = _inputService.GetValidatedIntInput("Enter weight per passenger (kg):", 1, elevator?.MaxWeight / elevator?.MaxPassengers);
 
         await _passengerService?.AddPassengers(elevatorId, numberOfPassengers, weightPerPassenger, elevator!.CurrentFloor)!;
 
@@ -48,7 +49,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
 
     private async Task MoveToDestinationFloor(Elevator elevator)
     {
-        var destinationFloor = GetValidatedIntInput("Which floor are you moving to", 1, 10);
+        var destinationFloor = _inputService.GetValidatedIntInput("Which floor are you moving to", 1, 10);
         await _elevatorService?.MoveElevatorToFloor(elevator!, destinationFloor)!;
 
         Console.WriteLine($"Elevator number: {elevator!.Id} has reached floor {destinationFloor}");
@@ -61,7 +62,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
     {
         var elevators = await _elevatorService?.GetElevators()!;
 
-        var elevatorId = GetValidatedIntInput("Enter elevator ID:", 1, elevators.Count());
+        var elevatorId = _inputService.GetValidatedIntInput("Enter elevator ID:", 1, elevators.Count());
 
         var elevator = await _elevatorService?.GetElevator(elevatorId)!;
 
@@ -71,42 +72,9 @@ public class ControlService(IPassengerService passengerService, IElevatorService
             return;
         }
 
-        var numberOfPassengers = GetValidatedIntInput("Enter number of passengers to remove:", 1, elevator?.Passengers?.Count);
+        var numberOfPassengers = _inputService.GetValidatedIntInput("Enter number of passengers to remove:", 1, elevator?.Passengers?.Count);
         await _passengerService?.RemovePassengers(elevatorId, numberOfPassengers)!;
         Console.WriteLine($"{numberOfPassengers} passengers removed from elevator {elevatorId}.");
-    }
-
-    /// <summary>
-    /// Validates integer input within a specified range.
-    /// </summary>
-    /// <param name="prompt">The prompt message to display.</param>
-    /// <param name="minValue">The minimum valid value.</param>
-    /// <param name="maxValue">The maximum valid value.</param>
-    /// <returns>The validated integer input.</returns>
-    private int GetValidatedIntInput(string prompt, int? minValue, int? maxValue)
-    {
-        int value;
-
-        if (maxValue == 0)
-        {
-            return default;
-        }
-
-        do
-        {
-            Console.Write($"{prompt} ({minValue} - {maxValue}): ");
-            string? input = Console.ReadLine();
-            if (int.TryParse(input, out value) && value >= minValue && value <= maxValue)
-            {
-                break;
-            }
-            else
-            {
-                Console.WriteLine($"Invalid input. Please enter a number between {minValue} and {maxValue}.");
-            }
-        } while (true);
-
-        return value;
     }
 
     /// <summary>
@@ -126,7 +94,7 @@ public class ControlService(IPassengerService passengerService, IElevatorService
             Console.WriteLine("3. Remove Passengers");
             Console.WriteLine("4. Exit");
 
-            var choice = GetValidatedIntInput($"Please choose an option between: ", 1, 4);
+            var choice = _inputService.GetValidatedIntInput($"Please choose an option between: ", 1, 4);
 
             switch (choice)
             {

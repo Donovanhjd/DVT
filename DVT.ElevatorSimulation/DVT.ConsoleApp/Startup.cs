@@ -20,6 +20,7 @@ namespace DVT.ConsoleApp
             services.AddScoped<IElevatorService, ElevatorService>();
             services.AddScoped<IPassengerService, PassengerService>();
             services.AddScoped<IControlService, ControlService>();
+            services.AddScoped<IInputService, InputService>();
         }
     }
 }
